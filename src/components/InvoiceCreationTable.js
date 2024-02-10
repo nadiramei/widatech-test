@@ -1,41 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { addProduct, removeProduct, updateProduct, updateTotalAmount } from "../store/actions";
 
-const InvoiceCreationTable = () => {
-    // State variables to store product data
-    const [products, setProducts] = useState([{ productName: '', productQuantity: 0, productPrice: 0 }]);
-    const [totalAmount, setTotalAmount] = useState(0);
-
-    // Function to add a new row
+const InvoiceCreationTable = ({ products, totalAmount, addProduct, removeProduct, updateProduct, updateTotalAmount }) => {
+    // Add a new product row
     const addRow = () => {
-        setProducts([...products, { productName: '', productQuantity: 0, productPrice: 0 }]);
+        addProduct({ productName: '', productQuantity: 0, productPrice: 0 });
     };
 
-    // Function to calculate the amount for each row
+    // Calculate the amount for each row
     const calculateAmount = (qty, price) => {
         return qty * price;
     };
 
-    // Function to handle changes in product quantity input
+    // Handle changes in product quantity input
     const handleProductQuantityChange = (e, index) => {
-        const newProducts = [...products];
-        newProducts[index].productQuantity = parseInt(e.target.value);
-        setProducts(newProducts);
+        updateProduct(index, { ...products[index], productQuantity: parseInt(e.target.value) });
     };
 
-    // Function to handle changes in product price input
+
+    // Handle changes in product price input
     const handleProductPriceChange = (e, index) => {
-        const newProducts = [...products];
-        newProducts[index].productPrice = parseInt(e.target.value);
-        setProducts(newProducts);
+        updateProduct(index, { ...products[index], productPrice: parseInt(e.target.value) });
+    };
+
+    const removeRow = (index) => {
+        removeProduct(index);
     };
 
     // Calculate total amount when products change
-    React.useEffect(() => {
+    useEffect(() => {
         let total = 0;
         products.forEach(product => {
             total += calculateAmount(product.productQuantity, product.productPrice);
         });
-        setTotalAmount(total);
+        updateTotalAmount(total);
     }, [products]);
 
     return (
@@ -55,7 +54,7 @@ const InvoiceCreationTable = () => {
                         {products.map((product, index) => (
                             <tr key={index} className="border-b">
                                 <td className="px-4 py-2">
-                                    <input placeholder="Input product name" className="p-1 rounded-md border border-white hover:border-gray-200 focus:outline-none focus:ring focus:ring-gray-300" value={product.productName} onChange={(e) => setProducts([{ ...product, productName: e.target.value }, ...products.slice(0, index), ...products.slice(index + 1)])} />
+                                    <input placeholder="Input product name" className="p-1 rounded-md border border-white hover:border-gray-200 focus:outline-none focus:ring focus:ring-gray-300" value={product.productName} onChange={(e) => handleProductQuantityChange(e, index)} />
                                 </td>
                                 <td className="px-4 py-2">
                                     <input placeholder="" className="w-16 p-1 rounded-md border border-white hover:border-gray-200 focus:outline-none focus:ring focus:ring-gray-300" value={product.productQuantity} onChange={(e) => handleProductQuantityChange(e, index)} />
@@ -68,13 +67,13 @@ const InvoiceCreationTable = () => {
                                     $ {calculateAmount(product.productQuantity, product.productPrice)}
                                 </td>
                                 <td className="px-4 py-2">
-                                    <button className="bg-transparent text-black font-bold py-2 px-4 rounded" onClick={() => setProducts(products.filter((_, i) => i !== index))}>✖</button>
+                                    <button className="bg-transparent text-black font-bold py-2 px-4 rounded" onClick={() => removeRow(index)}>✖</button>
                                 </td>
                             </tr>
                         ))}
                         <tr>
                             <td>
-                                <button className="mt-4 py-2 px-6 border border-slate-400 hover:bg-slate-800 hover:text-white text-sm rounded-full" onClick={addRow}>+ PRODUCT</button>
+                                <button className="mt-4 py-2 px-6 border border-slate-400 hover:bg-slate-800 hover:text-white text-sm rounded-full" onClick={() => addRow({ productName: '', productQuantity: 0, productPrice: 0 })}>+ PRODUCT</button>
                             </td>
                             <td></td>
                             <td className="px-4 py-2 font-semibold text-gray-400">TOTAL</td>
@@ -93,4 +92,16 @@ const InvoiceCreationTable = () => {
     )
 }
 
-export default InvoiceCreationTable;
+const mapStateToProps = (state) => ({
+    products: state.products,
+    totalAmount: state.totalAmount,
+});
+
+const mapDispatchToProps = {
+    addProduct,
+    removeProduct,
+    updateProduct,
+    updateTotalAmount
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(InvoiceCreationTable);
