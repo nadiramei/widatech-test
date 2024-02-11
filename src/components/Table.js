@@ -16,10 +16,10 @@ const Table = ({ invoices, invoiceAmount }) => {
         fetchInvoiceProducts(invoice.id);
     };
 
-    const deleteInvoice = async (invoiceId) => {
+    const deleteInvoice = async (invoiceId, invoiceNumber) => {
         try {
             // Ask for confirmation
-            const confirmed = window.confirm('Are you sure you want to delete this invoice?');
+            const confirmed = window.confirm(`Are you sure you want to delete invoice ${invoiceNumber}?`);
             if (!confirmed) {
                 return; // Exit function if not confirmed
             }
@@ -127,7 +127,7 @@ const Table = ({ invoices, invoiceAmount }) => {
                                 <td className="p-2">
                                     <button className="bg-transparent text-black font-bold px-2 rounded" onClick={() => togglePopup(invoice)}>👁</button>
                                     {/* <button className="bg-transparent text-black font-bold px-2 rounded">🖊</button> */}
-                                    <button className="bg-transparent font-bold px-2 rounded text-red-500" onClick={() => deleteInvoice(invoice.id)}>✖</button>
+                                    <button className="bg-transparent font-bold px-2 rounded text-red-500" onClick={() => deleteInvoice(invoice.id, invoice.invoice_number)}>✖</button>
                                 </td>
                             </tr>
                         ))}
