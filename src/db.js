@@ -1,11 +1,11 @@
-import mysql from "mysql2";
+import { Sequelize } from 'sequelize';
 
-const db = mysql.createPool({
-    connectionLimit: 10,
+const sequelize = new Sequelize({
+    dialect: 'mysql',
     host: 'sql6.freesqldatabase.com',
-    user: 'sql6683322',
+    username: 'sql6683322',
     password: 'E2TSJqq7At',
-    database: 'your_dsql6683322atabase_name'
+    database: 'sql6683322'
 });
 
-module.exports = db;
+export default sequelize;

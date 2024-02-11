@@ -1,10 +1,13 @@
 const initialState = {
     products: [{
+        productId: 0,
         productName: '',
         productQuantity: 0,
         productPrice: 0,
+        productStock: 0,
     }],
     totalAmount: 0,
+    invoiceNumber: '',
     invoiceDate: '',
     dueDate: '',
     customerName: '',
