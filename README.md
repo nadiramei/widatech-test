@@ -1,70 +1,50 @@
-# Getting Started with Create React App
+# Invoice System Demo
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This system was developed as part of the technical test requirement for Wida Tech, using React.js, Node.js, Redux, and MySQL.
 
-## Available Scripts
+There are 3 pages in this system: 'Invoice Creation', 'Invoice Card', and 'Dashboard'.
 
-In the project directory, you can run:
 
-### `npm start`
+## Invoice Creation
+The 'Invoice Creation' page provides a comprehensive interface for users to create new invoices. Features include:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Product Recommendations: As the user types in the product name, the system will suggest relevant products based on input.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+![Screenshot](./previews/invoice-creation.PNG)
 
-### `npm test`
+- Automated Price Calculation: Upon defining the quantity of products in the invoice, the system will compute the total price of the selected item(s).
+- Error Handling: If any mandatory fields (invoice date, invoice due date, customer name, and sales name) are left empty upon submission, an error message will prompt users to fill in the necessary fields before proceeding.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![Screenshot](./previews/invoice-creation-error.PNG)
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Invoice Card
+The 'Invoice Card' page is used to display all the invoices that had previously been created. Users can select how many invoices are displayed on one page.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![Screenshot](./previews/invoice-card.PNG)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Features include:
+- Deletion: The user can delete previously created invoices by clicking on the ✖ button on the action column.
 
-### `npm run eject`
+![Screenshot](./previews/invoice-deletion.PNG)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Details: The user can see the details of previously made invoices by clicking the 👁 button on the action column.
+  
+![Screenshot](./previews/invoice-popup.PNG)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Dashboard
+The 'Dashboard' page will show the stats of all of the invoices in the database. Features include:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Total Sales: The system will show the total amount of sales from the invoices in the database, categorized by daily, weekly, and monthly periods.
 
-## Learn More
+![Screenshot](./previews/dashboard.PNG)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Chart: The page will render a line chart that represents the amount of sales taken from the invoices in the system.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+![Screenshot](./previews/chart-1.PNG)
 
-### Code Splitting
+The chart can be zoomed in and out to show the data in more detail.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+![Screenshot](./previews/chart-2.PNG)
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
