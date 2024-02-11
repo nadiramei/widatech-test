@@ -1,27 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from './components/Sidebar.js';
 import { Link } from "react-router-dom";
 import Table from "./components/Table.js";
 
 const InvoiceCard = () => {
-    const invoices = [];
-
-    for (let i = 1; i <= 100; i++) {
-        invoices.push({
-            id: i,
-            date: `2024-02-${i < 10 ? '0' + i : i}`,
-            customerName: `Customer ${i}`,
-            salesName: `Sales ${i}`,
-            amount: Math.floor(Math.random() * 1000) + 1,
-            notes: `lorem ipsum`
-        });
-    }
-
+    const [invoices, setInvoices] = useState([]);
     const [invoiceAmount, setInvoiceAmount] = useState(25);
 
     const handleInvoiceAmountChange = (e) => {
         setInvoiceAmount(parseInt(e.target.value));
     };
+
+    const fetchInvoices = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/api/get-invoices');
+            const data = await response.json();
+            setInvoices(data);
+        } catch (error) {
+            console.error('Error fetching invoices:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchInvoices();
+    }, []);
 
     return (
         <>

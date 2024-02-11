@@ -5,6 +5,7 @@ const Table = ({ invoices, invoiceAmount }) => {
     // State variables
     const [currentPage, setCurrentPage] = useState(1);
     const [invoicesPerPage, setInvoicesPerPage] = useState(invoiceAmount);
+    const [products, setProducts] = useState([]);
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [currentInvoice, setCurrentInvoice] = useState(null);
@@ -12,6 +13,50 @@ const Table = ({ invoices, invoiceAmount }) => {
     const togglePopup = (invoice) => {
         setIsPopupOpen(!isPopupOpen);
         setCurrentInvoice(invoice);
+        fetchInvoiceProducts(invoice.id);
+    };
+
+    const deleteInvoice = async (invoiceId) => {
+        try {
+            // Ask for confirmation
+            const confirmed = window.confirm('Are you sure you want to delete this invoice?');
+            if (!confirmed) {
+                return; // Exit function if not confirmed
+            }
+
+            const response = await fetch('http://localhost:5000/api/delete-invoice', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: invoiceId })
+            });
+            const data = await response.json();
+            console.log(data); // Log the response from the server
+            // Optionally, update your UI or perform other actions based on the response
+            alert('Invoice deleted successfully.');
+        } catch (error) {
+            console.error('Error deleting invoice:', error);
+        }
+    };
+
+
+    const fetchInvoiceProducts = async (invoiceId) => {
+        try {
+            const response = await fetch('http://localhost:5000/api/get-invoice-products', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: invoiceId })
+            });
+            const data = await response.json();
+            console.log(data);
+            setProducts(data);
+            // Update products state or perform other actions with the data
+        } catch (error) {
+            console.error('Error fetching invoice products:', error);
+        }
     };
 
     const handleClosePopup = () => {
@@ -40,45 +85,49 @@ const Table = ({ invoices, invoiceAmount }) => {
                 <table className="table-auto w-full">
                     <thead className="text-left font-semibold">
                         <tr className="border-b">
-                            <th className="w-[2rem] px-4 py-2 text-gray-400 font-semibold hover:cursor-pointer">
+                            <th className="w-[2rem] p-2 text-gray-400 font-semibold">
                                 #
                             </th>
-                            <th className="px-4 py-2 text-gray-400 font-semibold hover:cursor-pointer">
+                            <th className="p-2 text-gray-400 font-semibold">
+                                INVOICE NUMBER
+                            </th>
+                            <th className="p-2 text-gray-400 font-semibold">
                                 DATE
                             </th>
-                            <th className="px-4 py-2 text-gray-400 font-semibold hover:cursor-pointer">
+                            <th className="p-2 text-gray-400 font-semibold">
                                 CUSTOMER NAME
                             </th>
-                            <th className="px-4 py-2 text-gray-400 font-semibold hover:cursor-pointer">
+                            <th className="p-2 text-gray-400 font-semibold">
                                 SALES NAME
                             </th>
-                            <th className="px-4 py-2 text-gray-400 font-semibold hover:cursor-pointer">
+                            <th className="p-2 text-gray-400 font-semibold">
                                 AMOUNT
                             </th>
-                            <th className="px-4 py-2 text-gray-400 font-semibold">
+                            <th className="p-2 text-gray-400 font-semibold">
                                 NOTES
                             </th>
-                            <th className="px-4 py-2 text-gray-400 font-semibold">
+                            <th className="p-2 text-gray-400 font-semibold">
                                 ACTION
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="text-left">
                         {currentInvoices.map((invoice, index) => (
                             <tr key={invoice.id} className={index % 2 === 0 ? 'bg-gray-200' : ''}>
-                                <td className="px-4 py-2 text-gray-400">{index + 1}</td>
-                                <td className="px-4 py-2">{invoice.date}</td>
-                                <td className="px-4 py-2">{invoice.customerName.length > 20 ? `${invoice.customerName.substring(0, 20)}...` : invoice.customerName}</td>
+                                <td className="p-2 text-gray-400">{index + 1}</td>
+                                <td className="p-2">{invoice.invoice_number}</td>
+                                <td className="p-2">{new Date(invoice.invoice_date).toLocaleDateString()}</td>
+                                <td className="p-2">{invoice.customer_name.length > 20 ? `${invoice.customer_name.substring(0, 20)}...` : invoice.customer_name}</td>
 
-                                <td className="px-4 py-2">{invoice.salesName.length > 20 ? `${invoice.salesName.substring(0, 20)}...` : invoice.salesName}</td>
-                                <td className="px-4 py-2">$ {invoice.amount}</td>
-                                <td className="px-4 py-2">
+                                <td className="p-2">{invoice.sales_name.length > 20 ? `${invoice.sales_name.substring(0, 20)}...` : invoice.sales_name}</td>
+                                <td className="p-2">$ {invoice.amount}</td>
+                                <td className="p-2">
                                     {invoice.notes.length > 16 ? `${invoice.notes.substring(0, 16)}...` : invoice.notes}
                                 </td>
-                                <td className="px-4 py-2">
+                                <td className="p-2">
                                     <button className="bg-transparent text-black font-bold px-2 rounded" onClick={() => togglePopup(invoice)}>👁</button>
-                                    <button className="bg-transparent text-black font-bold px-2 rounded">🖊</button>
-                                    <button className="bg-transparent text-black font-bold px-2 rounded">✖</button>
+                                    {/* <button className="bg-transparent text-black font-bold px-2 rounded">🖊</button> */}
+                                    <button className="bg-transparent font-bold px-2 rounded text-red-500" onClick={() => deleteInvoice(invoice.id)}>✖</button>
                                 </td>
                             </tr>
                         ))}
@@ -90,7 +139,7 @@ const Table = ({ invoices, invoiceAmount }) => {
                 onClose={handleClosePopup}
                 togglePopup={togglePopup}
                 invoice={currentInvoice}
-                products={[]}
+                products={products}
             />
             {/* Pagination */}
             <div className="flex justify-center mt-4">

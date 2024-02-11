@@ -10,7 +10,7 @@ const CreateInvoice = ({ invoiceDetails, products, totalAmount, updateInvoiceDet
     const [invoice, setInvoice] = useState({ ...invoiceDetails });
     const [allProducts, setAllProducts] = useState([]);
     const [productSuggestions, setProductSuggestions] = useState([]);
-
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
         // Update the local state
@@ -112,7 +112,7 @@ const CreateInvoice = ({ invoiceDetails, products, totalAmount, updateInvoiceDet
 
         const updatedInvoice = { ...invoice, invoiceNumber: generateInvoiceNumber() };
         const data = { invoice: updatedInvoice, products, totalAmount };
-        console.log(data);
+        // console.log(data);
 
         fetch('http://localhost:5000/api/invoice-creation', {
             method: 'POST',
@@ -129,8 +129,9 @@ const CreateInvoice = ({ invoiceDetails, products, totalAmount, updateInvoiceDet
             })
             .then(responseData => {
                 // Handle successful response
-                console.log(responseData);
-                // Optionally, reset form fields or perform other actions after successful submission
+                // console.log(responseData);
+                alert('Invoice submitted successfully');
+                window.location.href = '/invoice-card';
             })
             .catch(error => {
                 // Handle error

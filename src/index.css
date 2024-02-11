@@ -23,3 +23,8 @@ code {
   padding: 2rem;
   background-color: #F6F7FB;
 }
+
+.myChart{
+  height: 10rem;
+  width: 10rem;
+}

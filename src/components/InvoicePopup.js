@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const InvoicePopup = ({ isOpen, invoice, products, onClose }) => {
 
@@ -20,25 +20,25 @@ const InvoicePopup = ({ isOpen, invoice, products, onClose }) => {
                                 <div>
                                     <label htmlFor="invoiceDate" className="block text-gray-400 text-sm font-semibold mb-2 w-56">INVOICE DATE</label>
                                     <div id="invoiceDate">
-                                        {invoice.date}
+                                        {new Date(invoice.invoice_date).toLocaleDateString()}
                                     </div>
                                 </div>
                                 <div>
                                     <label htmlFor="dueDate" className="block text-gray-400 text-sm font-semibold mb-2 w-56">DUE DATE</label>
                                     <div id="dueDate">
-                                        {invoice.dueDate}
+                                    {new Date(invoice.due_date).toLocaleDateString()}
                                     </div>
                                 </div>
                                 <div>
                                     <label htmlFor="customerName" className="block text-gray-400 text-sm font-semibold mb-2 w-56">CUSTOMER NAME</label>
                                     <div id="customerName">
-                                        {invoice.customerName}
+                                        {invoice.customer_name}
                                     </div>
                                 </div>
                                 <div>
                                     <label htmlFor="salesName" className="block text-gray-400 text-sm font-semibold mb-2 w-56">SALES NAME</label>
                                     <div id="salesName">
-                                        {invoice.salesName}
+                                        {invoice.sales_name}
                                     </div>
                                 </div>
                             </div>
@@ -46,7 +46,7 @@ const InvoicePopup = ({ isOpen, invoice, products, onClose }) => {
                             <div>
                                 <label htmlFor="invoiceNumber" className="block text-gray-400 text-sm font-semibold mb-2 w-56">INVOICE NUMBER</label>
                                 <div id="invoiceNumber">
-                                    {invoice.invoiceNumber}
+                                    {invoice.invoice_number}
                                 </div>
                             </div>
                             <div>
@@ -74,16 +74,16 @@ const InvoicePopup = ({ isOpen, invoice, products, onClose }) => {
                                     {products.map((product, index) => (
                                         <tr key={index} className="border-b">
                                             <td className="px-4 py-2">
-                                                <div className="p-1 rounded-md border border-white hover:border-gray-200 focus:outline-none focus:ring focus:ring-gray-300">{product.productName}</div>
+                                                <div className="p-1 rounded-md border border-white focus:outline-none">{product.product_name}</div>
                                             </td>
                                             <td className="px-4 py-2">
-                                                <div className="p-1 rounded-md border border-white hover:border-gray-200 focus:outline-none focus:ring focus:ring-gray-300">{product.productQuantity}</div>
+                                                <div className="p-1 rounded-md border border-white focus:outline-none">{product.quantity}</div>
                                             </td>
                                             <td className="px-4 py-2">
-                                                <div className="p-1 rounded-md border border-white hover:border-gray-200 focus:outline-none focus:ring focus:ring-gray-300">${product.productPrice}</div>
+                                                <div className="p-1 rounded-md border border-white focus:outline-none">${product.price}</div>
                                             </td>
                                             <td className="px-4 py-2">
-                                                $
+                                                $ {product.quantity * product.price}
                                             </td>
                                         </tr>
                                     ))}
@@ -92,7 +92,7 @@ const InvoicePopup = ({ isOpen, invoice, products, onClose }) => {
                                         <td></td>
                                         <td className="px-4 py-2 font-semibold text-gray-400">TOTAL</td>
                                         <td className="px-4 py-2 font-bold text-xl">
-                                            $
+                                            $ {invoice.amount}
                                         </td>
                                     </tr>
                                 </tbody>
