@@ -92,6 +92,11 @@ const CreateInvoice = ({ invoiceDetails, products, totalAmount, updateInvoiceDet
         e.preventDefault();
         setIsFormSubmitted(true);
 
+        if (!invoice.customerName || !invoice.salesName || !invoice.amount) {
+            alert('Please fill in all required fields');
+            return;
+        }
+
         // Generate a six-digit random number
         const generateInvoiceNumber = () => {
             const today = new Date();
