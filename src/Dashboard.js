@@ -7,7 +7,7 @@ const Dashboard = () => {
             <Sidebar />
             <div className="body">
                 <h1 className="text-2xl text-gray-400 mb-5">Dashboard</h1>
-                <div className="min-h-ful border border-gray-300 rounded-xl p-5 bg-white">
+                <div className="min-h-full border border-gray-300 rounded-xl p-5 bg-white">
                     <div className="flex flex-col justify-center items-center">
                         <h2 className="font-bold tracking-widest mb-4">SALES GRAPH</h2>
                         <img src="http://placekitten.com/g/200/300"/>

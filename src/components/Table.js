@@ -1,9 +1,22 @@
 import React, { useState, useEffect } from "react";
+import InvoicePopup from "./InvoicePopup";
 
 const Table = ({ invoices, invoiceAmount }) => {
     // State variables
     const [currentPage, setCurrentPage] = useState(1);
     const [invoicesPerPage, setInvoicesPerPage] = useState(invoiceAmount);
+
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [currentInvoice, setCurrentInvoice] = useState(null);
+
+    const togglePopup = (invoice) => {
+        setIsPopupOpen(!isPopupOpen);
+        setCurrentInvoice(invoice);
+    };
+
+    const handleClosePopup = () => {
+        setIsPopupOpen(false);
+    };
 
     // Update invoices per page when invoiceAmount changes
     useEffect(() => {
@@ -23,6 +36,7 @@ const Table = ({ invoices, invoiceAmount }) => {
     return (
         <>
             <div className="overflow-x-auto">
+                {/* invoice list table */}
                 <table className="table-auto w-full">
                     <thead className="text-left font-semibold">
                         <tr className="border-b">
@@ -52,7 +66,7 @@ const Table = ({ invoices, invoiceAmount }) => {
                     <tbody>
                         {currentInvoices.map((invoice, index) => (
                             <tr key={invoice.id} className={index % 2 === 0 ? 'bg-gray-200' : ''}>
-                                <td className="px-4 py-2">{index + 1}</td>
+                                <td className="px-4 py-2 text-gray-400">{index + 1}</td>
                                 <td className="px-4 py-2">{invoice.date}</td>
                                 <td className="px-4 py-2">{invoice.customerName.length > 20 ? `${invoice.customerName.substring(0, 20)}...` : invoice.customerName}</td>
 
@@ -62,7 +76,7 @@ const Table = ({ invoices, invoiceAmount }) => {
                                     {invoice.notes.length > 16 ? `${invoice.notes.substring(0, 16)}...` : invoice.notes}
                                 </td>
                                 <td className="px-4 py-2">
-                                    <button className="bg-transparent text-black font-bold px-2 rounded">👁</button>
+                                    <button className="bg-transparent text-black font-bold px-2 rounded" onClick={() => togglePopup(invoice)}>👁</button>
                                     <button className="bg-transparent text-black font-bold px-2 rounded">🖊</button>
                                     <button className="bg-transparent text-black font-bold px-2 rounded">✖</button>
                                 </td>
@@ -71,6 +85,13 @@ const Table = ({ invoices, invoiceAmount }) => {
                     </tbody>
                 </table>
             </div>
+            <InvoicePopup
+                isOpen={isPopupOpen}
+                onClose={handleClosePopup}
+                togglePopup={togglePopup}
+                invoice={currentInvoice}
+                products={[]}
+            />
             {/* Pagination */}
             <div className="flex justify-center mt-4">
                 <ul className="flex space-x-2">

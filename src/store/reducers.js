@@ -1,6 +1,15 @@
 const initialState = {
-    products: [{ productName: '', productQuantity: 0, productPrice: 0 }],
+    products: [{
+        productName: '',
+        productQuantity: 0,
+        productPrice: 0,
+    }],
     totalAmount: 0,
+    invoiceDate: '',
+    dueDate: '',
+    customerName: '',
+    salesName: '',
+    notes: '',
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -27,6 +36,16 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 totalAmount: action.payload,
+            };
+        case 'UPDATE_INVOICE_DETAILS':
+            return {
+                ...state,
+                totalAmount: action.payload.totalAmount,
+                invoiceDate: action.payload.invoiceDate,
+                dueDate: action.payload.dueDate,
+                customerName: action.payload.customerName,
+                salesName: action.payload.salesName,
+                notes: action.payload.notes,
             };
         default:
             return state;

@@ -28,7 +28,7 @@ const InvoiceCard = () => {
             <Sidebar />
             <div className="body">
                 <h1 className="text-2xl text-gray-400 mb-5">Invoice Card</h1>
-                <div className="min-h-ful border border-gray-300 rounded-xl p-5 bg-white">
+                <div className="min-h-full border border-gray-300 rounded-xl p-5 bg-white">
                     <div className="flex flex-row justify-between mb-10">
                         <div className="flex flex-row">
                             <label htmlFor="invoicesToShow" className="flex items-center justify-center text-sm font-light text-gray-700">
